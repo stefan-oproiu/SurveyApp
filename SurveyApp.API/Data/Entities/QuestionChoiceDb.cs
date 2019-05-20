@@ -9,6 +9,8 @@ namespace SurveyApp.API.Data.Entities
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public List<SubmissionQuestionChoice> Submissions { get; set; }
+        public int QuestionId { get; set; }
+        public QuestionDb Question { get; set; }
+        public List<SubmissionQuestionChoiceDb> Submissions { get; set; }
     }
 }

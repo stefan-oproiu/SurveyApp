@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SurveyApp.API.Data.Entities
+namespace SurveyApp.API.Models
 {
-    public class SubmissionDb
+    public class SubmissionResponse
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public UserDb User { get; set; }
         public int SurveyId { get; set; }
-        public SurveyDb Survey { get; set; }
-        public List<SubmissionQuestionChoiceDb> Choices { get; set; }
+        public List<QuestionResponse> Questions { get; set; }
     }
 }

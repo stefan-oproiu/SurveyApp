@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SurveyApp.API.Data.Entities
 {
-    public class SubmissionQuestionChoice
+    public class SubmissionQuestionChoiceDb
     {
         public int SubmissionId { get; set; }
         public int QuestionChoiceId { get; set; }

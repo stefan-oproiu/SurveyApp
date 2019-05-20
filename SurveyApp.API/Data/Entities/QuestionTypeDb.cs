@@ -7,8 +7,7 @@ namespace SurveyApp.API.Data.Entities
 {
     public enum QuestionTypeDb
     {
-        FreeText,
-        SingleChoice,
-        MultipleChoice
+        SingleChoice = 0,
+        MultipleChoice = 1
     }
 }

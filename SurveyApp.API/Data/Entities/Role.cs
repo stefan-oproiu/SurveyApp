@@ -7,7 +7,7 @@ namespace SurveyApp.API.Data.Entities
 {
     public enum Role
     {
-        Admin,
-        User
+        User = 0,
+        Admin = 1
     }
 }
