@@ -1,0 +1,25 @@
+<mat-card>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput formControlName="text" placeholder="Question" />
+    </mat-form-field>
+    <div formArrayName="choices" *ngFor="let choice of form.get('choices').controls; let i = index;">
+      <ng-container [formGroupName]="i">
+        <mat-form-field>
+          <input placeholder="Choice" matInput formControlName="text" />
+        </mat-form-field>
+        <button (click)="removeChoice(i)" mat-icon-button color="warn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+    <button class="add-button" mat-button (click)="addChoice()">Add choice</button>
+    <mat-form-field>
+      <ngx-mat-file-input class="file" [accept]="'.jpg'" formControlName="file" placeholder="Image">
+      </ngx-mat-file-input>
+      <mat-icon matSuffix>add_photo_alternate</mat-icon>
+    </mat-form-field>
+    <mat-checkbox formControlName="type">Multiple choice</mat-checkbox>
+  </form>
+  <button color="primary" mat-raised-button (click)="onSubmit()">Submit</button>
+</mat-card>

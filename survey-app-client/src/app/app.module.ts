@@ -7,6 +7,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ShellModule } from './shell/shell.module';
 import { LoginModule } from './login/login.module';
 import { RegisterModule } from './register/register.module';
+import { HttpClientModule } from '@angular/common/http';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -26,9 +27,10 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
         authScheme: 'Bearer ',
-        whitelistedDomains: ['https://localhost:5001', 'https://localhost:6001']
+        whitelistedDomains: ['localhost:5001', '127.0.0.1:6001']
       }
     }),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

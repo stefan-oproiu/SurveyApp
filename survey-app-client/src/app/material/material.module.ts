@@ -19,6 +19,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 @NgModule({
   declarations: [],
@@ -42,7 +47,12 @@ import { MatListModule } from '@angular/material/list';
     MatGridListModule,
     MatDividerModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MaterialFileInputModule
   ],
   exports: [
     MatToolbarModule,
@@ -62,7 +72,12 @@ import { MatListModule } from '@angular/material/list';
     MatGridListModule,
     MatDividerModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MaterialFileInputModule
   ],
   providers: [MatSnackBar]
 })

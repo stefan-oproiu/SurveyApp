@@ -27,7 +27,8 @@ namespace SurveyApp.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,17 +58,17 @@ namespace SurveyApp.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Text = table.Column<string>(nullable: true),
-                    QuestionDbId = table.Column<int>(nullable: true)
+                    QuestionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionChoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QuestionChoices_Questions_QuestionDbId",
-                        column: x => x.QuestionDbId,
+                        name: "FK_QuestionChoices_Questions_QuestionId",
+                        column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,9 +146,9 @@ namespace SurveyApp.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuestionChoices_QuestionDbId",
+                name: "IX_QuestionChoices_QuestionId",
                 table: "QuestionChoices",
-                column: "QuestionDbId");
+                column: "QuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubmissionQuestionChoices_QuestionChoiceId",

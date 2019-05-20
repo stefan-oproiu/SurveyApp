@@ -1,8 +1,12 @@
 export interface QuestionRequest {
     text: string;
     file: File;
-    choices: ChoiceResponse[];
+    choices: ChoiceRequest[];
     type: QuestionType;
+}
+
+export interface ChoiceRequest {
+    text: string;
 }
 
 export interface ChoiceResponse {

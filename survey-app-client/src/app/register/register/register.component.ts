@@ -5,6 +5,7 @@ import { Register } from 'src/app/models/register.model';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-register',
@@ -43,12 +44,13 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     const model = this.signUpForm.value as Register;
-    this.userService.signUp(model).subscribe(
+    this.userService.signUp(model).pipe(tap(console.log)).subscribe(
       token => {
-        this.loginService.saveToken(token.access_token)
-        this.loginService.redirectToMap();
+        this.loginService.saveToken(token.token)
+        this.loginService.redirectToSurveys();
       },
       (error: HttpErrorResponse) => {
+        console.log(error)
         this.snackBar.open("Failed registration", "", { duration: 3000 })
       }
     )

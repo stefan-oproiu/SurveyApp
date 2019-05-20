@@ -1,0 +1,21 @@
+.file {
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+mat-card {
+  width: 500px;
+}
+
+mat-form-field {
+  width: 90%;
+}
+
+.add-button {
+  width: 100px;
+}

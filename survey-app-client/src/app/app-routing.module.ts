@@ -15,8 +15,9 @@ const routes: Routes = [
     path: '',
     component: ShellComponent,
     children: [
+      { path: '', pathMatch: 'full', redirectTo: '/surveys'},
       { path: 'questions', component: QuestionsComponent, canActivate: [AdminGuard] },
-      { path: 'submissions', component: SubmissionsComponent, canActivate: [AdminGuard] },
+      { path: 'submissions', component: SubmissionsComponent, canActivate: [AuthGuard] },
       {
         path: 'surveys', canActivate: [AuthGuard], children: [
           { path: '', component: SurveysComponent },

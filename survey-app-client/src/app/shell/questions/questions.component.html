@@ -1,3 +1,4 @@
-<p>
-  questions works!
-</p>
+<app-question *ngFor="let q of questions" [question]="q"></app-question>
+<button (click)="addQuestion()" mat-fab color="accent" id="fab">
+  <mat-icon>add</mat-icon>
+</button>

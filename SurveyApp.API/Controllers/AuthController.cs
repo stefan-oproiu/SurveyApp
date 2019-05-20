@@ -61,7 +61,7 @@ namespace SurveyApp.API.Controllers
                 );
 
             //return token
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
 
         [HttpPost("signup")]

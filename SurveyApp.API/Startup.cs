@@ -48,12 +48,21 @@ namespace SurveyApp.API
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
                         //setup validate data
-                        ValidIssuer = Configuration["Jwt:Issues"],
+                        ValidIssuer = Configuration["Jwt:Issuer"],
                         ValidAudience = Configuration["Jwt:Audience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]))
                     };
                 });
             services.AddHttpClient();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("all",
+                builder =>
+                {
+                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -63,13 +72,13 @@ namespace SurveyApp.API
             app.UseCustomExceptionResponse();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseHsts();
             }
-
+            app.UseCors("all");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();

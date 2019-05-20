@@ -13,12 +13,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public signUp(model: Register): Observable<string> {
-    return this.http.post<string>(`${environment.api}/auth/signup`, model)
+  public signUp(model: Register): Observable<any> {
+    return this.http.post<any>(`${environment.api}/auth/signup`, model)
       .pipe(tap(console.log));
   }
 
-  public logIn(model: Login): Observable<string> {
-    return this.http.post<string>(`${environment.api}/auth/token`, model);
+  public logIn(model: Login): Observable<any> {
+    return this.http.post<any>(`${environment.api}/auth/token`, model);
   }
 }

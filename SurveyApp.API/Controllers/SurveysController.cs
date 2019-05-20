@@ -36,7 +36,7 @@ namespace SurveyApp.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody]SurveyRequest request)
         {
             var survey = Mapper.Map<SurveyDb>(request);

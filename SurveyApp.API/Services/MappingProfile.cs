@@ -26,6 +26,7 @@ namespace SurveyApp.API.Services
                     dest => dest.Questions,
                     opt => opt.MapFrom(src => src.Questions.Select(q => q.Question))
                 );
+            CreateMap<ChoiceRequest, QuestionChoiceDb>();
         }
     }
 }

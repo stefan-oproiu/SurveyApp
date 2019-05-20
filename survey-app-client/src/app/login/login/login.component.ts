@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
     this.userService.logIn(model)
       .subscribe(
         token => {
-          this.loginService.saveToken(token.access_token)
-          this.loginService.redirectToMap();
+          this.loginService.saveToken(token.token)
+          this.loginService.redirectToSurveys();
         },
         (error: HttpErrorResponse) => {
           this.clearCredentials();

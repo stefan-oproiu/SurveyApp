@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{question.text}}
+    </mat-card-title>
+  </mat-card-header>
+  <img [src]="question.imageUrl" />
+  <mat-card-content>
+    <mat-chip-list>
+      <mat-chip *ngFor="let c of question.choices">
+        {{c.text}}
+      </mat-chip>
+    </mat-chip-list>
+  </mat-card-content>
+</mat-card>

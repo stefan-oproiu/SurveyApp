@@ -30,7 +30,7 @@ namespace SurveyApp.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Get([FromQuery]List<int> questionIds)
         {
             var questions = Context.Questions.Include(q => q.Choices);
@@ -39,6 +39,10 @@ namespace SurveyApp.API.Controllers
             {
                 qq = await questions.Where(u => questionIds.Contains(u.Id)).ToListAsync();
             }
+            else
+            {
+                qq = await questions.ToListAsync();
+            }
 
             var result = Mapper.Map<List<QuestionResponse>>(qq);
 
@@ -46,8 +50,8 @@ namespace SurveyApp.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
-        public async Task<IActionResult> Post([FromBody]QuestionRequest request)
+        [Authorize]
+        public async Task<IActionResult> Post([FromBody]QuestionRequest request, [FromBody]IFormFile file)
         {
             var endpoint = $"{configuration["ImageServer:Url"]}/api/images";
             var client = factory.CreateClient();
@@ -56,14 +60,14 @@ namespace SurveyApp.API.Controllers
             client.BaseAddress = new Uri(endpoint);
 
             byte[] data;
-            using (var br = new BinaryReader(request.File.OpenReadStream()))
-                data = br.ReadBytes((int)request.File.OpenReadStream().Length);
+            using (var br = new BinaryReader(file.OpenReadStream()))
+                data = br.ReadBytes((int)file.OpenReadStream().Length);
 
             ByteArrayContent bytes = new ByteArrayContent(data);
 
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
-            multiContent.Add(bytes, "file", request.File.FileName);
+            multiContent.Add(bytes, "file", file.FileName);
 
             var response = await client.PostAsync("", multiContent);
             var name = await response.Content.ReadAsStringAsync();
