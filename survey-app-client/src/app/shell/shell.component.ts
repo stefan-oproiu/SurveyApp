@@ -7,10 +7,11 @@ import { LoginService } from '../services/login.service';
   styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent implements OnInit {
-
+  userName: string;
   constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+    this.userName = this.loginService.getPayload().name;
   }
 
   logOut() {

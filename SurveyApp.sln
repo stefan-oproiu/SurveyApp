@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.ImageServer", "Su
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyApp.API", "SurveyApp.API\SurveyApp.API.csproj", "{B48A09AB-77B0-463D-8A1F-F48B6E5C5478}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.ImageClient", "SurveyApp.ImageClient\SurveyApp.ImageClient.csproj", "{A15D8B9B-A048-4EDD-84E5-225411279845}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyApp.NotificationClient", "SurveyApp.NotificationClient\SurveyApp.NotificationClient.csproj", "{8B84D640-6847-45BB-961A-1C7113807958}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{B48A09AB-77B0-463D-8A1F-F48B6E5C5478}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B48A09AB-77B0-463D-8A1F-F48B6E5C5478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B48A09AB-77B0-463D-8A1F-F48B6E5C5478}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A15D8B9B-A048-4EDD-84E5-225411279845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A15D8B9B-A048-4EDD-84E5-225411279845}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A15D8B9B-A048-4EDD-84E5-225411279845}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A15D8B9B-A048-4EDD-84E5-225411279845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B84D640-6847-45BB-961A-1C7113807958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B84D640-6847-45BB-961A-1C7113807958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B84D640-6847-45BB-961A-1C7113807958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B84D640-6847-45BB-961A-1C7113807958}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -49,10 +49,12 @@ namespace SurveyApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Post([FromBody]QuestionRequest request, [FromBody]IFormFile file)
+        [Route("{id}/image")]
+        public async Task<IActionResult> Put(int id)
         {
+            var file = Request.Form.Files[0];
             var endpoint = $"{configuration["ImageServer:Url"]}/api/images";
             var client = factory.CreateClient();
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, endpoint);
@@ -72,8 +74,21 @@ namespace SurveyApp.API.Controllers
             var response = await client.PostAsync("", multiContent);
             var name = await response.Content.ReadAsStringAsync();
 
+            var question = await Context.Questions.FirstOrDefaultAsync(q => q.Id == id);
+            question.ImageUrl = endpoint;
+
+            Context.Questions.Update(question);
+            await Context.SaveChangesAsync();
+
+            return Ok(Mapper.Map<QuestionResponse>(question));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Post([FromBody]QuestionRequest request)
+        {
+
             var result = Mapper.Map<QuestionDb>(request);
-            result.ImageUrl = $"{configuration["ImageServer:Url"]}/{name}";
 
             Context.Questions.Add(result);
             await Context.SaveChangesAsync();

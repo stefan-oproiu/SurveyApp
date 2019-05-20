@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Handler } from './services/error-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'survey-app-client';
+  constructor(private handler: Handler) {}
 }

@@ -23,4 +23,10 @@ export class QuestionService {
   postQuestion(model: QuestionRequest): Observable<QuestionResponse> {
     return this.http.post<QuestionResponse>(`${environment.api}/questions`, model);
   }
+
+  updateQuestionImage(id: number, file: File) {
+    const uploadData = new FormData();
+    uploadData.append('myFile', file, file.name);
+    return this.http.put(`${environment.api}/questions/${id}/image`, uploadData);
+  }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SurveyApp.API.Data;
 using SurveyApp.API.Extensions;
+using SurveyApp.API.Hubs;
 using SurveyApp.API.Services;
 using System.Text;
 
@@ -29,6 +30,7 @@ namespace SurveyApp.API
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ConnectionString"))
             );
+            services.AddScoped<NotificationService>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -63,12 +65,15 @@ namespace SurveyApp.API
                     builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                 });
             });
+
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("all");
             app.UseCustomExceptionResponse();
             if (env.IsDevelopment())
             {
@@ -78,9 +83,13 @@ namespace SurveyApp.API
             {
                 app.UseHsts();
             }
-            app.UseCors("all");
             app.UseHttpsRedirection();
             app.UseAuthentication();
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<NotificationHub>("/notificationhub");
+            });
             app.UseMvc();
         }
     }

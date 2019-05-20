@@ -13,7 +13,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SurveyApp.API.Data;
 using SurveyApp.API.Data.Entities;
+using SurveyApp.API.Exceptions;
 using SurveyApp.API.Models;
+using SurveyApp.API.Services;
 
 namespace SurveyApp.API.Controllers
 {
@@ -22,10 +24,15 @@ namespace SurveyApp.API.Controllers
     public class AuthController : BaseController
     {
         private readonly IConfiguration configuration;
+        private readonly NotificationService notificationService;
 
-        public AuthController(AppDbContext context, IMapper mapper, IConfiguration configuration) : base(context, mapper)
+        public AuthController(AppDbContext context,
+            IMapper mapper, 
+            IConfiguration configuration,
+            NotificationService notificationService) : base(context, mapper)
         {
             this.configuration = configuration;
+            this.notificationService = notificationService;
         }
 
         [HttpPost("token")]
@@ -34,7 +41,7 @@ namespace SurveyApp.API.Controllers
             var user = await Context.Users.FirstOrDefaultAsync(u => u.Email == request.Email && u.Password == request.Password);
 
             if (user == null)
-                return Unauthorized();
+                throw new UnauthorizedException("Wrong email or password");
 
             //security key
             string securityKey = this.configuration["Jwt:Secret"];
@@ -50,6 +57,7 @@ namespace SurveyApp.API.Controllers
             claims.Add(new Claim(ClaimTypes.Role, user.Role == Role.Admin ? "ADMIN" : "USER"));
             claims.Add(new Claim("role", role));
             claims.Add(new Claim("userId", user.Id.ToString()));
+            claims.Add(new Claim("name", user.Name));
 
             //create token
             var token = new JwtSecurityToken(
@@ -60,6 +68,7 @@ namespace SurveyApp.API.Controllers
                     , claims: claims
                 );
 
+            notificationService.Send($"User {user.Name} logged in.");
             //return token
             return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
@@ -70,7 +79,11 @@ namespace SurveyApp.API.Controllers
             if (request == null)
                 return BadRequest();
 
+            if (await Context.Users.AnyAsync(u => u.Email == request.Email))
+                throw new BadRequestException($"Email {request.Email} already exists");
+
             var user = Mapper.Map<UserDb>(request);
+
 
             Context.Users.Add(user);
             await Context.SaveChangesAsync();

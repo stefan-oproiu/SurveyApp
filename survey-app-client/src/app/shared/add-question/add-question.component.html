@@ -8,14 +8,16 @@
         <mat-form-field>
           <input placeholder="Choice" matInput formControlName="text" />
         </mat-form-field>
-        <button (click)="removeChoice(i)" mat-icon-button color="warn">
+        <button [disabled]="form.get('choices').controls.length == 2" (click)="removeChoice(i)" mat-icon-button color="warn">
           <mat-icon>close</mat-icon>
         </button>
       </ng-container>
     </div>
-    <button class="add-button" mat-button (click)="addChoice()">Add choice</button>
+    <button [disabled]="form.get('choices').controls.length == 5" class="add-button" mat-mini-fab color="primary" (click)="addChoice()">
+      <mat-icon>add</mat-icon>
+    </button>
     <mat-form-field>
-      <ngx-mat-file-input class="file" [accept]="'.jpg'" formControlName="file" placeholder="Image">
+      <ngx-mat-file-input class="file" [accept]="['.jpg', '.png', '.jpeg']" formControlName="file" placeholder="Image">
       </ngx-mat-file-input>
       <mat-icon matSuffix>add_photo_alternate</mat-icon>
     </mat-form-field>

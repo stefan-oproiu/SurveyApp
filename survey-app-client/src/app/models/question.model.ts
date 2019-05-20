@@ -1,6 +1,5 @@
 export interface QuestionRequest {
     text: string;
-    file: File;
     choices: ChoiceRequest[];
     type: QuestionType;
 }

@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
 import { QuestionResponse, QuestionType, QuestionRequest } from 'src/app/models/question.model';
 import { QuestionService } from 'src/app/services/question.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-question',
@@ -21,7 +22,9 @@ export class AddQuestionComponent implements OnInit {
     this.form = new FormGroup({
       text: new FormControl(''),
       file: new FormControl(null),
-      choices: new FormArray([]),
+      choices: new FormArray([
+        new FormGroup({ text: new FormControl('') }),
+        new FormGroup({ text: new FormControl('') })]),
       type: new FormControl(false)
     });
 
@@ -45,6 +48,7 @@ export class AddQuestionComponent implements OnInit {
     val.type = val.type ? QuestionType.multipleChoice : QuestionType.singleChoice;
     let model = val as QuestionRequest;
     this.questionService.postQuestion(model)
+      .pipe(switchMap(q => this.questionService.updateQuestionImage(q.id, val.file)))
       .subscribe(response => this.dialogRef.close(response));
   }
 }

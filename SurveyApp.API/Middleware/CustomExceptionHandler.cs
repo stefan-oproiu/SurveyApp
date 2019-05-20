@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SurveyApp.API.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -57,14 +58,12 @@ namespace SurveyApp.API.Middleware
             if (ex is BadRequestException)
             {
                 errors = ex.Message.Split(",").ToList();
-                await WriteErrorToContext(context, errors, "Validation Errors", responseCode);
+                await WriteErrorToContext(context, errors, ex.Message, responseCode);
             }
             else
             {
                 await WriteErrorToContext(context, errors, ex.Message, responseCode);
             }
-
-
         }
 
 
@@ -73,14 +72,16 @@ namespace SurveyApp.API.Middleware
             string message,
             int responseCode)
         {
-            var errorMessage = JsonConvert.SerializeObject(
-                new ExceptionResponse
-                {
+            var errorMessage = message;
+                //JsonConvert.SerializeObject(
+                //new ExceptionResponse
+                //{
 
-                    Message = message,
-                    Errors = errors
-                }
-                );
+                //    Message = message,
+                //    Errors = errors
+                //},
+                //new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }
+                //);
 
             context.Response.StatusCode = responseCode;
 

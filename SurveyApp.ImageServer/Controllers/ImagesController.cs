@@ -33,12 +33,12 @@ namespace SurveyApp.ImageServer.Controllers
         public async Task<IActionResult> Get([FromRoute]string name)
         {
             var image = await context.Images.FirstOrDefaultAsync(i => i.Name == name);
-            if(image == null)
+            if (image == null)
             {
                 return NotFound();
             }
 
-            return File(image.Content, "image/jpg");
+            return File(image.Content, $"{image.Type}");
         }
 
         [HttpPost]
@@ -48,7 +48,7 @@ namespace SurveyApp.ImageServer.Controllers
             {
                 if (file.Length > 0)
                 {
-
+                    Console.WriteLine(file.ContentType);
                     byte[] p1 = null;
                     using (var fs1 = file.OpenReadStream())
                     using (var ms1 = new MemoryStream())
@@ -57,7 +57,7 @@ namespace SurveyApp.ImageServer.Controllers
                         p1 = ms1.ToArray();
                     }
 
-                    var appImage = new AppImage { Name = Guid.NewGuid().ToString(), Content = p1 };
+                    var appImage = new AppImage { Name = Guid.NewGuid().ToString(), Content = p1, Type = file.ContentType };
 
                     context.Images.Add(appImage);
                     await context.SaveChangesAsync();

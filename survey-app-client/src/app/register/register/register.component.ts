@@ -6,6 +6,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { Handler } from 'src/app/services/error-handler.service';
 
 @Component({
   selector: 'app-register',
@@ -49,10 +50,7 @@ export class RegisterComponent implements OnInit {
         this.loginService.saveToken(token.token)
         this.loginService.redirectToSurveys();
       },
-      (error: HttpErrorResponse) => {
-        console.log(error)
-        this.snackBar.open("Failed registration", "", { duration: 3000 })
-      }
+      Handler.handle
     )
   }
 
