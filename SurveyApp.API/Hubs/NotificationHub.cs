@@ -11,7 +11,7 @@ namespace SurveyApp.API.Hubs
     {
         public Task SendMessage(string message)
         {
-            return Clients.All.SendAsync(message);
+            return Clients.All.SendAsync("ReceiveNotification", message);
         }
 
         public override Task OnConnectedAsync()

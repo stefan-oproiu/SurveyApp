@@ -25,8 +25,10 @@ export class QuestionsComponent implements OnInit {
   addQuestion() {
     let dialogRef = this.matDialog.open(AddQuestionComponent)
     dialogRef.afterClosed().subscribe(data => {
-      if (data)
+      if (data) {
         this.questions.push(data);
+        console.log(data);
+      }
     });
   }
 

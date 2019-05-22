@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using SurveyApp.API.Data;
 using SurveyApp.API.Data.Entities;
 using SurveyApp.API.Models;
+using SurveyApp.API.Services;
 
 namespace SurveyApp.API.Controllers
 {
@@ -23,7 +25,11 @@ namespace SurveyApp.API.Controllers
         private readonly IHttpClientFactory factory;
         private readonly IConfiguration configuration;
 
-        public QuestionsController(AppDbContext context, IMapper mapper, IHttpClientFactory factory, IConfiguration configuration) : base(context, mapper)
+        public QuestionsController(AppDbContext context, 
+            IMapper mapper,
+            NotificationService notificationService,
+            IHttpClientFactory factory, 
+            IConfiguration configuration) : base(context, mapper, notificationService)
         {
             this.factory = factory;
             this.configuration = configuration;
@@ -45,6 +51,9 @@ namespace SurveyApp.API.Controllers
             }
 
             var result = Mapper.Map<List<QuestionResponse>>(qq);
+
+
+            NotificationService.Send($"User {NotificationService.UserName} fetched all questions.");
 
             return Ok(result);
         }
@@ -70,15 +79,18 @@ namespace SurveyApp.API.Controllers
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
             multiContent.Add(bytes, "file", file.FileName);
+            multiContent.Headers.Add("content", file.ContentType);
 
             var response = await client.PostAsync("", multiContent);
             var name = await response.Content.ReadAsStringAsync();
 
-            var question = await Context.Questions.FirstOrDefaultAsync(q => q.Id == id);
-            question.ImageUrl = endpoint;
+            var question = await Context.Questions.Include(q => q.Choices).FirstOrDefaultAsync(q => q.Id == id);
+            question.ImageUrl = $"{endpoint}/{name}";
 
             Context.Questions.Update(question);
             await Context.SaveChangesAsync();
+
+            NotificationService.Send($"User {NotificationService.UserName} edited the image of a question.");
 
             return Ok(Mapper.Map<QuestionResponse>(question));
         }
@@ -92,6 +104,8 @@ namespace SurveyApp.API.Controllers
 
             Context.Questions.Add(result);
             await Context.SaveChangesAsync();
+
+            NotificationService.Send($"User {NotificationService.UserName} added a question.");
 
             return Ok(Mapper.Map<QuestionResponse>(result));
         }

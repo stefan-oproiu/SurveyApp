@@ -29,7 +29,8 @@ namespace SurveyApp.API.Controllers
         public AuthController(AppDbContext context,
             IMapper mapper, 
             IConfiguration configuration,
-            NotificationService notificationService) : base(context, mapper)
+            NotificationService notificationService
+        ) : base(context, mapper, notificationService)
         {
             this.configuration = configuration;
             this.notificationService = notificationService;

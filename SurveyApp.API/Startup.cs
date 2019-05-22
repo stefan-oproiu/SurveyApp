@@ -56,6 +56,7 @@ namespace SurveyApp.API
                     };
                 });
             services.AddHttpClient();
+            services.AddHttpContextAccessor();
 
             services.AddCors(options =>
             {
@@ -65,7 +66,7 @@ namespace SurveyApp.API
                     builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                 });
             });
-
+            
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

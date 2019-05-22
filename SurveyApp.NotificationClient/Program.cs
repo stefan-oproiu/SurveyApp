@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNet.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 using System;
 
 namespace SurveyApp.NotificationClient
@@ -7,11 +7,14 @@ namespace SurveyApp.NotificationClient
     {
         static void Main(string[] args)
         {
-            var connection = new HubConnection("https://localhost:5001/notificationhub");
+            var connection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:5001/notificationhub")
+                .Build();
+
             connection
-                .CreateHubProxy("NotificationHub")
                 .On<string>("ReceiveNotification", Console.WriteLine);
-            connection.Start().Wait();
+
+            connection.StartAsync().Wait();
             Console.WriteLine("Connection started");
             Console.ReadKey();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,6 +49,7 @@ namespace SurveyApp.ImageServer.Controllers
             {
                 if (file.Length > 0)
                 {
+                    var contentType = Request.Headers["content"].ToString();
                     Console.WriteLine(file.ContentType);
                     byte[] p1 = null;
                     using (var fs1 = file.OpenReadStream())
@@ -57,16 +59,16 @@ namespace SurveyApp.ImageServer.Controllers
                         p1 = ms1.ToArray();
                     }
 
-                    var appImage = new AppImage { Name = Guid.NewGuid().ToString(), Content = p1, Type = file.ContentType };
+                    var appImage = new AppImage { Name = Guid.NewGuid().ToString(), Content = p1, Type = contentType };
 
                     context.Images.Add(appImage);
                     await context.SaveChangesAsync();
 
                     return Ok(appImage.Name);
                 }
-                else return BadRequest();
+                else return BadRequest("file length");
             }
-            else return BadRequest();
+            else return BadRequest("file[0] is null");
         }
     }
 }

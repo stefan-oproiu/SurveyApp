@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using SurveyApp.API.Data;
 using SurveyApp.API.Data.Entities;
 using SurveyApp.API.Models;
+using SurveyApp.API.Services;
 
 namespace SurveyApp.API.Controllers
 {
@@ -17,7 +18,7 @@ namespace SurveyApp.API.Controllers
     [ApiController]
     public class SubmissionsController : BaseController
     {
-        public SubmissionsController(AppDbContext context, IMapper mapper) : base(context, mapper)
+        public SubmissionsController(AppDbContext context, IMapper mapper, NotificationService notificationService) : base(context, mapper, notificationService)
         {
         }
 
