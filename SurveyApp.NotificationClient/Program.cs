@@ -12,7 +12,7 @@ namespace SurveyApp.NotificationClient
                 .Build();
 
             connection
-                .On<string>("ReceiveNotification", Console.WriteLine);
+                .On<string>("ReceiveNotification", (message) => Console.WriteLine($"[{DateTime.Now.ToString("dd-MM-yy HH:mm:ss")}] {message}"));
 
             connection.StartAsync().Wait();
             Console.WriteLine("Connection started");
