@@ -27,6 +27,8 @@ namespace SurveyApp.API.Services
                     opt => opt.MapFrom(src => src.Questions.Select(q => q.Question))
                 );
             CreateMap<ChoiceRequest, QuestionChoiceDb>();
+            CreateMap<SurveyDb, SurveyResponse>()
+                .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions.Select(q => q.Question)));
         }
     }
 }

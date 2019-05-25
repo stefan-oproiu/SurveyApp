@@ -9,6 +9,7 @@ import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AddQuestionComponent } from '../shared/add-question/add-question.component';
+import { AddSurveyComponent } from '../shared/add-survey/add-survey.component';
 
 @NgModule({
   declarations: [ShellComponent, QuestionsComponent, SubmissionsComponent, SurveysComponent, SurveyComponent],
@@ -18,6 +19,6 @@ import { AddQuestionComponent } from '../shared/add-question/add-question.compon
     RouterModule,
     SharedModule
   ],
-  entryComponents: [AddQuestionComponent]
+  entryComponents: [AddQuestionComponent, AddSurveyComponent]
 })
 export class ShellModule { }

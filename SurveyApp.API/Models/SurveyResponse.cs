@@ -7,6 +7,7 @@ namespace SurveyApp.API.Models
 {
     public class SurveyResponse
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<QuestionResponse> Questions { get; set; }
     }

@@ -2,8 +2,11 @@ app-question {
   width: 100%;
 }
 
-#fab {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
+mat-expansion-panel {
+  width: 700px;
+  margin: auto;
+}
+
+:host {
+  padding: 20px;
 }

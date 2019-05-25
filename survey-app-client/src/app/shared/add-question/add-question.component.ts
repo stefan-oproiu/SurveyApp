@@ -27,8 +27,6 @@ export class AddQuestionComponent implements OnInit {
         new FormGroup({ text: new FormControl('') })]),
       type: new FormControl(false)
     });
-
-
   }
 
   addChoice() {

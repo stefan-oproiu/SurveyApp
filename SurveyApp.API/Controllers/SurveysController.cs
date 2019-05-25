@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,10 @@ namespace SurveyApp.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            var result = await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions).ToListAsync();
+            var surveys = await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions).ToListAsync();
+
+            var result = Mapper.Map<List<SurveyResponse>>(surveys);
+
             return Ok(result);
         }
 
@@ -44,10 +48,13 @@ namespace SurveyApp.API.Controllers
             var questions = await Context.Questions.Where(q => request.QuestionIds.Contains(q.Id)).ToListAsync();
             Context.Surveys.Add(survey);
             await Context.SaveChangesAsync();
+            survey = await Context.Surveys.Include(s => s.Questions).FirstOrDefaultAsync(s => s.Id == survey.Id);
             questions.ForEach(q => survey.Questions.Add(new SurveyQuestionDb { Survey = survey, Question = q }));
             await Context.SaveChangesAsync();
-            var result = await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions)
+            survey = await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions)
                 .FirstOrDefaultAsync(s => s.Id == survey.Id);
+
+            var result = Mapper.Map<SurveyResponse>(survey);
 
             return Ok(result);
         }

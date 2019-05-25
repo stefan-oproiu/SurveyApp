@@ -24,6 +24,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -52,7 +53,8 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatRadioModule,
     MatCheckboxModule,
     MatChipsModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatSelectModule
   ],
   exports: [
     MatToolbarModule,
@@ -77,7 +79,8 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MatRadioModule,
     MatCheckboxModule,
     MatChipsModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatSelectModule
   ],
   providers: [MatSnackBar]
 })

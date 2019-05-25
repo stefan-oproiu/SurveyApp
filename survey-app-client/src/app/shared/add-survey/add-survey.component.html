@@ -1,0 +1,11 @@
+<mat-card>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput placeholder="Survey name" formControlName="name" />
+    </mat-form-field>
+    <mat-select placeholder="Questions" formControlName="questionIds" multiple>
+      <mat-option [matTooltip]="question.text" matTooltipPosition="left" *ngFor="let question of data" [value]="question.id">{{question.text}}</mat-option>
+    </mat-select>
+  </form>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+</mat-card>

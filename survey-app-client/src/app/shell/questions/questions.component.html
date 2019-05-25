@@ -1,4 +1,11 @@
-<app-question *ngFor="let q of questions" [question]="q"></app-question>
-<button (click)="addQuestion()" mat-fab color="accent" id="fab">
-  <mat-icon>add</mat-icon>
-</button>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let q of questions">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{q.text}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-question [question]="q"></app-question>
+  </mat-expansion-panel>
+</mat-accordion>
+<app-add-button (click)="addQuestion()"></app-add-button>
