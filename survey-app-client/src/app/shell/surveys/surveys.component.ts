@@ -6,6 +6,7 @@ import { AddSurveyComponent } from 'src/app/shared/add-survey/add-survey.compone
 import { SurveyResponse } from 'src/app/models/survey.model';
 import { tap } from 'rxjs/operators';
 import { SurveyService } from 'src/app/services/survey.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-surveys',
@@ -20,6 +21,7 @@ export class SurveysComponent implements OnInit {
   questionsLoaded: boolean = false;
   surveysLoaded: boolean = false;
   constructor(
+    private loginService: LoginService,
     private questionService: QuestionService,
     private surveyService: SurveyService,
     private matDialog: MatDialog) { }
@@ -32,6 +34,10 @@ export class SurveysComponent implements OnInit {
     this.surveyService.getSurveys()
       .pipe(tap(_ => this.surveysLoaded))
       .subscribe(res => this.surveys = res)
+  }
+
+  get isAdmin() {
+    return this.loginService.isAdmin();
   }
 
   addSurvey() {

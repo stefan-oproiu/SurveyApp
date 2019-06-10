@@ -24,9 +24,11 @@ namespace SurveyApp.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            var surveys = await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions).ToListAsync();
+            var surveys = await Context.Surveys.Include(s => s.Questions).ThenInclude(q => q.Question).ThenInclude(q => q.Choices).Include(s => s.Submissions).ToListAsync();
 
             var result = Mapper.Map<List<SurveyResponse>>(surveys);
+
+            NotificationService.Send($"User {NotificationService.UserName} fetched all surveys.");
 
             return Ok(result);
         }
@@ -37,7 +39,10 @@ namespace SurveyApp.API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions).FirstOrDefaultAsync(s => s.Id == id));
+            var survey = await Context.Surveys.Include(s => s.Questions).ThenInclude(q => q.Question).ThenInclude(q => q.Choices).Include(s => s.Submissions).FirstOrDefaultAsync(s => s.Id == id);
+            var result = Mapper.Map<SurveyResponse>(survey);
+            NotificationService.Send($"User {NotificationService.UserName} fetched survey with id {id}.");
+            return Ok(result);
         }
 
         [HttpPost]
@@ -51,10 +56,11 @@ namespace SurveyApp.API.Controllers
             survey = await Context.Surveys.Include(s => s.Questions).FirstOrDefaultAsync(s => s.Id == survey.Id);
             questions.ForEach(q => survey.Questions.Add(new SurveyQuestionDb { Survey = survey, Question = q }));
             await Context.SaveChangesAsync();
-            survey = await Context.Surveys.Include(s => s.Questions).Include(s => s.Submissions)
+            survey = await Context.Surveys.Include(s => s.Questions).ThenInclude(q => q.Question).ThenInclude(q => q.Choices).Include(s => s.Submissions)
                 .FirstOrDefaultAsync(s => s.Id == survey.Id);
 
             var result = Mapper.Map<SurveyResponse>(survey);
+            NotificationService.Send($"User {NotificationService.UserName} posted a new survey.");
 
             return Ok(result);
         }

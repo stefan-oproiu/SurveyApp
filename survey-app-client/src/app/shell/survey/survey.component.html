@@ -1,3 +1,25 @@
-<p>
-  survey works!
-</p>
+<!-- <form [formGroup]="form" *ngIf="survey && form">
+    <ng-container formArrayName="questions" *ngFor="let question of form.controls.questions?.value; let i = index">
+        <mat-card [formGroupName]="i">
+            <mat-card-title>
+                {{question.text}}
+            </mat-card-title>
+            <mat-card-content>
+                <ng-container *ngIf="question.type == 0">
+                    <mat-radio-group formControlName="choices">
+                        <mat-radio-button *ngFor="let choice of question.controls." [value]="choice.id">
+                            {{choice.text}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </ng-container>
+                <ng-container *ngIf="question.type == 1">
+                    <mat-select multiple formControlName="choices">
+                        <mat-option *ngFor="let choice of question.get('choices').controls" [value]="choice.id">{{choice.text}}</mat-option>
+                    </mat-select>
+                </ng-container>
+            </mat-card-content>
+        </mat-card>
+    </ng-container>
+</form> -->
+
+<pre>{{survey|json}}</pre>

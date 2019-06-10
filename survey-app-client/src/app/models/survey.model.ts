@@ -6,6 +6,7 @@ export interface SurveyRequest {
 }
 
 export interface SurveyResponse {
+    id: number;
     name: string;
     questions: QuestionResponse[];
 }

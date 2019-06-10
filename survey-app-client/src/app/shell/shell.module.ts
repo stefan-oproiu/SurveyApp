@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AddQuestionComponent } from '../shared/add-question/add-question.component';
 import { AddSurveyComponent } from '../shared/add-survey/add-survey.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ShellComponent, QuestionsComponent, SubmissionsComponent, SurveysComponent, SurveyComponent],
@@ -17,7 +18,8 @@ import { AddSurveyComponent } from '../shared/add-survey/add-survey.component';
     CommonModule,
     MaterialModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   entryComponents: [AddQuestionComponent, AddSurveyComponent]
 })

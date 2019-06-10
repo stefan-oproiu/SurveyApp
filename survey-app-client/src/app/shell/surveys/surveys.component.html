@@ -6,4 +6,4 @@
     Complete survey
   </a>
 </mat-card>
-<app-add-button (click)="addSurvey()"></app-add-button>
+<app-add-button *ngIf="isAdmin" (click)="addSurvey()"></app-add-button>
